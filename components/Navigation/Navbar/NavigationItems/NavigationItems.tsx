@@ -20,28 +20,21 @@ interface Props {
 //Modo 2
 //de esta manera no va a aceptar children, salvo que lo tipee en la interfaz declarada arriba de todo.
 const NavigationItems = ({ categories }: Props) => {
-  const linkStyle = (isActive: boolean) => {
-    return isActive
-      ? { color: "#fff", textDecoration: "underline" }
-      : { color: "#000" };
-  };
 
   const auth = useAuthContext();
 
   const btnStyle = {
     style: { color: "#000" },
-    sx: { ml: 3, my: 2, display: "block", fontSize: 16 },
+    sx: { my: 2, display: "block", fontSize: 16 },
   };
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: 'center' }}>
         {categories.map((cat) => (
           <Link key={cat.id} href={`/category/${cat.description}`}>
             <Button
-              // style={({ isActive }) => linkStyle(isActive)}
-              style={{ color: "#000" }}
-              sx={{ my: 2, display: "block", fontSize: 16 }}
+              {...btnStyle}
             >
               {cat.description}
             </Button>
@@ -49,41 +42,19 @@ const NavigationItems = ({ categories }: Props) => {
         ))}
       </Box>
 
-      {auth.isUserAuthenticated() ? (
-        <>
-          <CartWidget />
-          <Button {...btnStyle} onClick={auth.logout}>
-            Salir
-          </Button>
-        </>
-      ) : (
-        <Button {...btnStyle} onClick={auth.openAuthModal}>
-          Ingresar
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <Button {...btnStyle} onClick={auth.isUserAuthenticated() ? auth.logout : auth.openAuthModal}>
+          {auth.isUserAuthenticated() ? 'Salir' : 'Ingresar'}
         </Button>
-      )}
+
+        {auth.isUserAuthenticated() && <CartWidget />}
+      </Box>
     </>
   );
 };
-
-//este modo sirve para mostrar cómo tipar lo que devuelve una función render
-// const NavigationItems = ({ pages }: Props) => {
-//   const renderList = (): JSX.Element[] => {
-//     return pages.map((page, index) => (
-//       <Button key={index} sx={{ my: 2, color: "#000000", display: "block" }}>
-//         {page}
-//       </Button>
-//     ));
-//   };
-
-//   return (
-//     <>
-//       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-//         {renderList()}
-//       </Box>
-
-//       <CartWidget />
-//     </>
-//   );
-// };
 
 export default NavigationItems;

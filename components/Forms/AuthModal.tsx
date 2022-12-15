@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
-import Login from "./Login";
-import Register from "./Register";
+import Login from "./LoginForm";
+import Register from "./RegisterForm";
 import CustomModal from "../UI/CustomModal";
 
 const AuthModal: React.FC = () => {

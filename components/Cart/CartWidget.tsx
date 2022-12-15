@@ -15,7 +15,7 @@ const CartWidget = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Ver carrito">
         <Link href="/cart">
-          <IconButton sx={{ p: 0 }}>
+          <IconButton sx={{ p: 0, ml: 2 }}>
             <Badge badgeContent={cartContext.numberOfItems()} color="success">
               <ShoppingCart
                 titleAccess="Carrito de compras"

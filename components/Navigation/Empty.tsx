@@ -3,13 +3,11 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 interface Props {
-  messages: {
-    title: string | null,
-    description: string
-  };
+  title?: string,
+  description: string
 }
 
-const Empty = ({ messages }: Props) => {
+const Empty = ({ title = "Ocurrió un error", description }: Props) => {
   return (
     <Box
       sx={{
@@ -21,7 +19,7 @@ const Empty = ({ messages }: Props) => {
       }}
     >
       <Typography variant="h5" textAlign="center">
-        {messages.title}
+        {title}
       </Typography>
       <Link href="/">
         <Typography
@@ -34,7 +32,7 @@ const Empty = ({ messages }: Props) => {
             textDecoration: "none",
           }}
         >
-          {messages.description}
+          {description}
         </Typography>
       </Link>
     </Box>

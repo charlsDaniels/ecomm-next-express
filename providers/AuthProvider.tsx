@@ -5,7 +5,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/router';
-import AuthModal from "../components/Auth/AuthModal";
+import AuthModal from "../components/Forms/AuthModal";
 import { auth } from "../services/firebase/initialize";
 import { AuthContextType, AuthStateInterface } from "../types/Auth";
 

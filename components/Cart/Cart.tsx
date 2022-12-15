@@ -13,10 +13,8 @@ const Cart: React.FC = () => {
   if (cartContext.isEmpty()) {
     return (
       <Empty
-        messages={{
-          title: "Todavía no agregaste productos al carrito...",
-          description: "Empezá a comprar!"
-        }}
+        title="Todavía no agregaste productos al carrito..."
+        description="Empezá a comprar!"
       />
     );
   }

@@ -61,7 +61,7 @@ const ProductDetail = ({ product }: Props) => {
         <Box
           component="img"
           sx={{
-            width: 265,
+            width: 196
           }}
           alt={product.description}
           src={product.pictureUrl}

@@ -3,7 +3,7 @@ import { useAuthContext } from "../../providers/AuthProvider";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const CartPage: React.FC = () => {
+const CartPage = () => {
   const { isUserAuthenticated } = useAuthContext()
 
   const router = useRouter()

@@ -13,6 +13,16 @@ import Loader from "../UI/Loader";
 import { CartContextType } from "../../types/Cart";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { useRouter } from "next/router";
+import { EMAIL_REGEX } from '../../utils/validations';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { auth } from "../../services/firebase/initialize";
+import { FormInputText } from '../Forms/FormInputText';
+
+type FormData = {
+  name?: string,
+  phone?: string,
+  email?: string | null
+};
 
 const CheckoutForm = () => {
   const cartContext = useContext(CartContext) as CartContextType;
@@ -20,11 +30,12 @@ const CheckoutForm = () => {
 
   const { authState } = useAuthContext();
 
-  const [user, setUser] = useState({
-    name: "",
-    phone: "",
-    email: authState.user?.email,
-  });
+  const { handleSubmit, control, formState: { isValid }, getValues } = useForm<FormData>(
+    {
+      mode: 'onChange',
+      defaultValues: { email: authState.user?.email }
+    }
+  );
 
   const [openModal, setShowModal] = useState(false);
   const [orderId, setOrderId] = useState("");
@@ -35,18 +46,11 @@ const CheckoutForm = () => {
     router.push("/")
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = async () => {
+  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     setLoading(true);
     try {
       const order = {
-        buyer: user,
+        buyer: data,
         items: cartContext.cart,
         total: cartContext.totalAmount(),
         status: "generada",
@@ -62,31 +66,34 @@ const CheckoutForm = () => {
     }
   };
 
-  const validateEmail = () => {
-    if (user.email) {
-      return String(user.email)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+  const formInputs = [{
+    name: "name",
+    label: "Nombre completo",
+    type: "text",
+    rules: {
+      required: 'El nombre es requerido',
     }
-    return true;
-  };
-
-  const validatePhone = () => {
-    if (user.phone) {
-      return String(user.phone).match(/^\d+$/);
+  },
+  {
+    name: "phone",
+    label: "Teléfono",
+    type: "tel",
+    rules: {
+      required: 'El teléfono es requerido'
     }
-    return true;
-  };
-
-  const formIsComplete = () => {
-    return Object.values(user).every((value) => value);
-  };
-
-  const formIsValid = () => {
-    return formIsComplete() && validateEmail() && validatePhone();
-  };
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "email",
+    // defaultValue: authState.user?.email,
+    rules: {
+      pattern: {
+        value: EMAIL_REGEX,
+        message: 'El formato del email debe ser válido'
+      }
+    }
+  }]
 
   return (
     <>
@@ -102,12 +109,14 @@ const CheckoutForm = () => {
         }}
       >
         <Box
+          component="form"
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 2,
           }}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Typography variant="h5">
             Total carrito: ${cartContext.totalAmount()},00
@@ -117,52 +126,24 @@ const CheckoutForm = () => {
             Completa tus datos para finalizar la compra!
           </Typography>
 
-          <FormControl
-            color="secondary"
-            onChange={handleInputChange}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-            fullWidth
-          >
-            <TextField
-              label="Nombre"
-              name="name"
-              color="secondary"
-              size="small"
-              value={user.name}
-            />
-            <TextField
-              label="Teléfono"
-              name="phone"
-              color="secondary"
-              size="small"
-              value={user.phone}
-              error={!validatePhone()}
-              helperText={!validatePhone() && "Debes ingresar sólo números."}
-            />
-            <TextField
-              label="Email"
-              name="email"
-              color="secondary"
-              size="small"
-              type="email"
-              value={user.email}
-              error={!validateEmail()}
-              helperText={!validateEmail() && "Debes ingresar un email válido."}
-            />
+          {formInputs.map(input => (
+            <FormInputText
+              key={input.name}
+              name={input.name}
+              control={control}
+              label={input.label}
+              type={input.type}
+              rules={input.rules} />
+          ))}
 
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={handleSubmit}
-              disabled={!formIsValid()}
-            >
-              Comprar
-            </Button>
-          </FormControl>
+          <Button
+            variant="outlined"
+            color="secondary"
+            type="submit"
+            disabled={!isValid}
+          >
+            Comprar
+          </Button>
         </Box>
       </Box>
     </>

@@ -6,16 +6,14 @@ import { fetchAllProducts, fetchProductById } from '../../services/firebase/quer
 import { GetStaticProps, GetStaticPaths } from 'next'
 import Empty from '../../components/Navigation/Empty';
 
-interface Props {
+interface ProductDetailPageProps {
   product: DBProduct
 }
 
-const ProductDetailPage: React.FC<Props> = (props) => {
-
-  const { product } = props
+const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
 
   if (!product) {
-    return <Empty messages={["Ocurió un error", "Producto no encontrado"]} />
+    return <Empty description="Producto no encontrado" />
   }
 
   return (

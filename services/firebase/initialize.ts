@@ -2,13 +2,22 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCmaYqDKiTLmsdjfayCfn1ljjSMWhrPmrU",
-  authDomain: "charltops-ecommerce.firebaseapp.com",
-  projectId: "charltops-ecommerce",
-  storageBucket: "charltops-ecommerce.appspot.com",
-  messagingSenderId: "258733256274",
-  appId: "1:258733256274:web:13af221ad663898cd3b98b",
+interface FirebaseConfigInterface {
+  apiKey?: string,
+  authDomain?: string,
+  projectId?: string,
+  storageBucket?: string,
+  messagingSenderId?: string,
+  appId?: string
+}
+
+const firebaseConfig: FirebaseConfigInterface = {
+  apiKey: process.env.firebase_apiKey,
+  authDomain: process.env.firebase_authDomain,
+  projectId: process.env.firebase_projectId,
+  storageBucket: process.env.firebase_storageBucket,
+  messagingSenderId: process.env.firebase_messagingSenderId,
+  appId: process.env.firebase_appId,
 };
 
 const app = initializeApp(firebaseConfig);
