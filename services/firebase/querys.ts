@@ -22,7 +22,7 @@ const fetchCategories = () => {
   return getDocs(categoriesCol);
 };
 
-const fetchAllProducts = (categoryId: string | undefined = undefined) => {
+const fetchAllProducts = (categoryId: string = '') => {
   let response;
 
   if (categoryId) {
