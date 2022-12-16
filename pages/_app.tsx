@@ -17,6 +17,12 @@ const theme = createTheme({
       main: "#553555",
     },
   },
+  typography: {
+    fontFamily: "'Oswald', sans-serif",
+    body1: {
+      fontWeight: 300,
+    },
+  },
 });
 
 function App({ Component, pageProps }: AppProps) {

@@ -72,17 +72,18 @@ const ProductDetail = ({ product }: Props) => {
         <Typography variant="h5" textTransform="capitalize">
           {productTitle()}
         </Typography>
-        <Typography variant="body2" my={3}>
+
+        <Typography variant="body1" my={3}>
           {product.description}
         </Typography>
         <Typography variant="body1" ml={2}>
           ${product.price},00
         </Typography>
-        <Typography variant="body2" mt={2}>
+        <Typography variant="body1" mt={2}>
           Hasta 6 cuotas sin interés
         </Typography>
 
-        <Box mt={3} sx={{ display: "flex", gap: 6 }}>
+        <Box mt={3} sx={{ display: "flex", gap: { xs: 2, md: 6 }, flexDirection: { xs: "column", md: "row" } }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="overline">Selecciona tu talla</Typography>
 

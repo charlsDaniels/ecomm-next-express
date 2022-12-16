@@ -12,14 +12,14 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <Box sx={{ width: 260 }}>
-      <Link href={`/products/${product.id}`}>
+    <Box sx={{ width: 230 }}>
+      <Link href={`/product/${product.id}`}>
         <Card
-          elevation={5}
+          elevation={2}
           sx={{
-            borderRadius: 3,
+            borderRadius: 1,
             "&:hover": {
-              transform: "scale(1.05)",
+              transform: "scale(1.02)",
             },
           }}
         >
@@ -32,7 +32,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             <CardMedia
               component="img"
               sx={{ objectFit: "contain" }}
-              height="235"
+              height="200"
               image={product.pictureUrl}
               alt={product.title}
             />

@@ -8,10 +8,6 @@ const Brand = () => {
         variant="h4"
         noWrap
         sx={{
-          // display: "flex",
-          // flexGrow: 0.8,
-          fontFamily: "monospace",
-          fontWeight: 700,
           color: "#000",
           textDecoration: "none",
         }}

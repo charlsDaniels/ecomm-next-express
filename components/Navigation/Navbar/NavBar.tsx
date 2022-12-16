@@ -1,12 +1,11 @@
 import AppBar from "@mui/material/AppBar";
-import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../../../services/firebase/querys";
 import { Category } from "../../../types/Category";
 import Brand from "../../Brand/Logo";
 import AsideMenu from "./Aside/AsideMenu";
-import NavigationItems from "./NavigationItems/NavigationItems";
+import UserMenu from "./User/UserMenu";
 
 const Navbar: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -28,16 +27,12 @@ const Navbar: React.FC = () => {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between'}}>
           <AsideMenu categories={categories} />
-
           <Brand />
-
-          <NavigationItems categories={categories} />
+          <UserMenu />
         </Toolbar>
-      </Container>
-    </AppBar>
+    </AppBar >
   );
 };
 

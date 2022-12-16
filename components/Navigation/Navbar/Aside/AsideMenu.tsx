@@ -24,7 +24,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ categories }) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+    <Box>
       <IconButton
         size="large"
         aria-label="account of current user"
@@ -49,9 +49,6 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ categories }) => {
         }}
         open={Boolean(anchorElNav)}
         onClose={handleCloseNavMenu}
-        sx={{
-          display: { xs: "block", md: "none" },
-        }}
       >
         {categories.map((category) => (
           <Link key={category.id} href={`/category/${category.description}`}>
