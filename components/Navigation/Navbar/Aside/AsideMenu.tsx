@@ -2,17 +2,17 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import {useState, useEffect} from 'react';
 import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import { Category } from "../../../../types/Category";
 import Link from "next/link";
+import { fetchCategories } from "../../../../services/firebase/querys";
 
-interface AsideMenuProps {
-  categories: Category[];
-}
+const AsideMenu: React.FC = () => {
 
-const AsideMenu: React.FC<AsideMenuProps> = ({ categories }) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,6 +22,21 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ categories }) => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const fetchData = async () => {
+    const snapshot = await fetchCategories();
+    const categories = snapshot.docs.map((doc) => {
+      return {
+        ...doc.data(),
+        id: doc.id,
+      };
+    });
+    setCategories(categories);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Box>
