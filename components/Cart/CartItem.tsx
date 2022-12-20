@@ -44,10 +44,9 @@ const CartItem: React.FC<Props> = ({ item }) => {
       <CardContent
         sx={{
           display: "flex",
-          flexWrap: "wrap-reverse",
         }}
       >
-        <Box>
+        <Box width={{xs: 150, sm: 200}}>
           <Link
             href={`/item/${item.id}`}
             style={{ textDecoration: "none", color: "#000" }}

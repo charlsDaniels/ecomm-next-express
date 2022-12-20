@@ -42,7 +42,7 @@ const AsideMenu: React.FC = () => {
     <Box>
       <IconButton
         size="large"
-        aria-label="account of current user"
+        aria-label="categorias"
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={handleOpenNavMenu}
