@@ -1,12 +1,13 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import CartProvider from '../providers/CartProvider';
 import AuthProvider from '../providers/AuthProvider';
 import { useRouter } from 'next/router';
 import Loader from '../components/UI/Loader';
+import Head from 'next/head';
 
 const theme = createTheme({
   palette: {
@@ -43,15 +44,20 @@ function App({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <CartProvider>
-          <Layout>
-            {loading ? <Loader /> : <Component {...pageProps} />}
-          </Layout>
-        </CartProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <Fragment>
+      <Head>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <CartProvider>
+            <Layout>
+              {loading ? <Loader /> : <Component {...pageProps} />}
+            </Layout>
+          </CartProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </Fragment>
   )
 }
 

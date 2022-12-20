@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Box from '@mui/material/Box';
 import ProductDetail from '../../components/Products/ProductDetail';
 import { DBProduct } from '../../types/Product';
 import { fetchAllProducts, fetchProductById } from '../../services/firebase/querys';
 import { GetStaticProps, GetStaticPaths } from 'next'
 import Empty from '../../components/Navigation/Empty';
+import Head from 'next/head';
 
 interface ProductDetailPageProps {
   product: DBProduct
@@ -17,9 +18,15 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
   }
 
   return (
-    <Box>
-      <ProductDetail product={product} />
-    </Box>
+    <Fragment>
+      <Head>
+        <title>{product.title}</title>
+        <meta name="description" content={product.description}></meta>
+      </Head>
+      <Box>
+        <ProductDetail product={product} />
+      </Box>
+    </Fragment>
   );
 }
 
