@@ -16,13 +16,11 @@ export const FormInputText = ({ name, control, label, type, rules }: Props) => {
     <Controller
       name={name}
       control={control}
-      defaultValue=""
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           label={label}
           size="small"
           color="secondary"
-          value={value}
           onChange={onChange}
           error={!!error}
           helperText={error ? error.message : null}

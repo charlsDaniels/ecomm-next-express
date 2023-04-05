@@ -1,6 +1,6 @@
 //@ts-check
 import Box from "@mui/material/Box";
-import { DBProduct } from "../../types/Product";
+import { DBProduct } from "types/Product";
 import Product from "./ProductCard";
 import Typography from '@mui/material/Typography';
 
@@ -20,7 +20,6 @@ const ProductList = ({ products, title }: Props) => {
       >
         {title}
       </Typography>}
-
       <Box
         sx={{
           display: "flex",
@@ -30,7 +29,7 @@ const ProductList = ({ products, title }: Props) => {
         }}
       >
         {products.map((item) => (
-          <Product key={item.id} product={item} />
+          <Product key={item._id} product={item} />
         ))}
       </Box>
     </Box>

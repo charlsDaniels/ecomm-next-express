@@ -2,21 +2,16 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import OrderModal from "./OrderModal";
 import { useState, useContext } from "react";
-import { CartContext } from "../../providers/CartProvider";
-import { addOrder } from "../../services/firebase/querys";
-import { serverTimestamp } from "firebase/firestore";
-import Loader from "../UI/Loader";
-import { CartContextType } from "../../types/Cart";
-import { useAuthContext } from "../../providers/AuthProvider";
+import { CartContext } from "providers/CartProvider";
+import Loader from "components/UI/Loader";
+import { CartContextType } from "types/Cart";
+import { useAuthContext } from "providers/AuthProvider";
 import { useRouter } from "next/router";
-import { EMAIL_REGEX } from '../../utils/validations';
+import { EMAIL_REGEX } from 'utils/validations';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { auth } from "../../services/firebase/initialize";
-import { FormInputText } from '../Forms/FormInputText';
+import { FormInputText } from 'components/Forms/FormInputText';
 
 type FormData = {
   name?: string,
@@ -54,10 +49,10 @@ const CheckoutForm = () => {
         items: cartContext.cart,
         total: cartContext.totalAmount(),
         status: "generada",
-        createdAt: serverTimestamp(),
+        // createdAt: serverTimestamp(),
       };
-      const { id } = await addOrder(order);
-      setOrderId(id);
+      // const { id } = await addOrder(order);
+      // setOrderId(id);
       setShowModal(true);
     } catch (error) {
       console.log(error);
@@ -86,7 +81,6 @@ const CheckoutForm = () => {
     name: "email",
     label: "Email",
     type: "email",
-    // defaultValue: authState.user?.email,
     rules: {
       pattern: {
         value: EMAIL_REGEX,

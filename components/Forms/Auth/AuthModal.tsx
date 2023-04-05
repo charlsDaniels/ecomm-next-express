@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../../providers/AuthProvider";
+import { useAuthContext } from "providers/AuthProvider";
+import CustomModal from "components/UI/CustomModal";
 import Login from "./LoginForm";
 import Register from "./RegisterForm";
-import CustomModal from "../UI/CustomModal";
 
 const AuthModal: React.FC = () => {
   enum Modes {

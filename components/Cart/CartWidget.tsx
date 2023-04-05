@@ -5,8 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
 import { useContext } from "react";
-import { CartContext } from "../../providers/CartProvider";
-import { CartContextType } from "../../types/Cart";
+import { CartContext } from "providers/CartProvider";
+import { CartContextType } from "types/Cart";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

@@ -1,5 +1,5 @@
-import Cart from "../../components/Cart/Cart";
-import { useAuthContext } from "../../providers/AuthProvider";
+import Cart from "components/Cart/Cart";
+import { useAuthContext } from "providers/AuthProvider";
 import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import Head from 'next/head';

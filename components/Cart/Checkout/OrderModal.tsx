@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import CustomModal from "../UI/CustomModal";
+import CustomModal from "components/UI/CustomModal";
 
 interface Props {
   orderId: string;

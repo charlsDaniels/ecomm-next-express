@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { CartContext } from "../../providers/CartProvider";
+import { CartContext } from "providers/CartProvider";
 import CartItem from "./CartItem";
 import Box from "@mui/material/Box";
-import { CartContextType } from "../../types/Cart";
+import { CartContextType } from "types/Cart";
 
 const CartItemList = () => {
   const cartContext = useContext(CartContext) as CartContextType;

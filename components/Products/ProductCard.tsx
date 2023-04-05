@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { DBProduct } from "../../types/Product";
+import { DBProduct } from "types/Product";
 import Link from "next/link";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Box sx={{ width: 230 }}>
-      <Link href={`/product/${product.id}`}>
+      <Link href={`/product/${product._id}`}>
         <Card
           elevation={2}
           sx={{
@@ -25,7 +25,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         >
           <CardContent>
             <CardHeader
-              title={product.title}
+              title={product.name}
               subheader={`$${product.price},00 `}
               sx={{ pt: 0 }}
             />
@@ -34,7 +34,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               sx={{ objectFit: "contain" }}
               height="200"
               image={product.pictureUrl}
-              alt={product.title}
+              alt={product.name}
             />
           </CardContent>
         </Card>

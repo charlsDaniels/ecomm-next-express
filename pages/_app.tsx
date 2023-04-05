@@ -1,12 +1,12 @@
-import '../styles/globals.css'
+import 'styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Fragment, useEffect, useState } from 'react';
-import Layout from '../components/Layout/Layout';
-import CartProvider from '../providers/CartProvider';
-import AuthProvider from '../providers/AuthProvider';
+import Layout from 'components/Layout/Layout';
+import CartProvider from 'providers/CartProvider';
+import AuthProvider from 'providers/AuthProvider';
 import { useRouter } from 'next/router';
-import Loader from '../components/UI/Loader';
+import Loader from 'components/UI/Loader';
 import Head from 'next/head';
 
 const theme = createTheme({

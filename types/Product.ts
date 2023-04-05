@@ -1,16 +1,18 @@
-export interface Size {
-  id: string;
-  stock: number;
+import { Category } from './Category';
+
+export interface Stock {
+  size: string;
+  quantity: number;
 }
 
 export interface DBProduct {
-  id: string;
-  categoryCode: string;
-  categoryDescription: string;
-  title: string;
+  _id: string;
+  isAvailable: boolean;
+  category: Category;
+  name: string;
   description: string;
   price: number;
   pictureUrl: string;
-  sizes: Size[];
+  stock: Stock[];
   isFeatured: boolean
 }

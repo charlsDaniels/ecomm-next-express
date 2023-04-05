@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import CartWidget from "../../../Cart/CartWidget";
-import { useAuthContext } from "../../../../providers/AuthProvider";
+import CartWidget from "components/Cart/CartWidget";
+import { useAuthContext } from "providers/AuthProvider";
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useTheme } from '@mui/material/styles';

@@ -1,13 +1,8 @@
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut
-} from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useRouter } from 'next/router';
-import AuthModal from "../components/Forms/AuthModal";
-import { auth } from "../services/firebase/initialize";
-import { AuthContextType, AuthStateInterface } from "../types/Auth";
+import AuthModal from "components/Forms/Auth/AuthModal";
+import { AuthContextType, AuthStateInterface, LoginForm } from '../types/Auth';
+import { axios } from '../services/axios';
 
 const authContext = createContext<AuthContextType | null>(null);
 
@@ -31,17 +26,32 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const router = useRouter()
 
-  const login = async (email: string, password: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password)
-      return Promise.resolve()
-    } catch (error) {
-      return Promise.reject()
-    }
+  const login = async (form: LoginForm) => {
+    const response = await axios.post('/auth/login', form)
+
+    const { token, user } = response
+
+    setAuthState(response)
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    axios.interceptors.request.use(
+      config => {
+        if (token) {
+          config.headers['Authorization'] = token
+        }
+        return config
+      }
+    )
   }
 
   const logout = () => {
-    signOut(auth);
+    setAuthState({
+      token: "",
+      user: null
+    })
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     router.push("/");
   };
 
@@ -52,12 +62,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const openAuthModal = () => setOpenModal(true);
 
   const closeAuthModal = () => setOpenModal(false);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setAuthState({ ...authState, user: currentUser });
-    });
-  }, []);
 
   return (
     <authContext.Provider

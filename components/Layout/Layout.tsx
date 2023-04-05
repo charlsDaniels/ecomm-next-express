@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../Navigation/Navbar/NavBar'
+import Navbar from 'components/Navigation/Navbar/NavBar'
 import Container from '@mui/material/Container';
 
 interface Props {

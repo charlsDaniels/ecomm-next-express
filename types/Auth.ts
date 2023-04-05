@@ -1,13 +1,32 @@
-import { User as FirebaseUser } from "firebase/auth";
+export interface LoginForm {
+  email: string
+  password: string
+};
+
+export interface RegisterForm {
+  username: string
+  email: string
+  password: string
+  password_confirm: string
+};
+
+export interface AuthUser {
+  uid: string
+  username: string
+  email: string
+  role: string
+  active: boolean
+  google: boolean
+}
 
 export interface AuthStateInterface {
   token: string
-  user: FirebaseUser | null
+  user: AuthUser | null
 }
 
 export type AuthContextType = {
   authState: AuthStateInterface
-  login: (email: string, password: string) => Promise<void>
+  login: (form: LoginForm) => void
   logout: () => void
   isUserAuthenticated: () => boolean
   openAuthModal: () => void

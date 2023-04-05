@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next';
-import { fetchAllProducts } from '../../services/firebase/querys';
-import ProductList from '../../components/Products/ProductList';
-import { DBProduct } from '../../types/Product';
+import ProductList from 'components/Products/ProductList';
+import { DBProduct } from 'types/Product';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import Head from 'next/head';
+import { fetchProducts } from 'services/api/querys';
 
 interface ProductCategoryPageProps {
   products: DBProduct[]
@@ -28,19 +28,11 @@ const ProductCategoryPage = ({ products }: ProductCategoryPageProps) => {
 
 export default ProductCategoryPage;
 
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-  const categoryId = ctx.params?.categoryId as string
+  const category = ctx.params?.categoryId as string
 
-  const snapshot = await fetchAllProducts(categoryId)
-
-  const products = snapshot.docs.map((doc) => {
-    return {
-      ...doc.data(),
-      id: doc.id,
-    };
-  });
+  const { products }: { products: DBProduct[]} = await fetchProducts(category)
 
   return {
     props: {
