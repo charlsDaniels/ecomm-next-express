@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import AuthModal from "components/Forms/Auth/AuthModal";
 import { AuthContextType, AuthStateInterface, LoginForm } from '../types/Auth';
 import { axios } from '../services/axios';
+import { FieldValues } from "react-hook-form";
 
 const authContext = createContext<AuthContextType | null>(null);
 
@@ -26,7 +27,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const router = useRouter()
 
-  const login = async (form: LoginForm) => {
+  const login = async (form: FieldValues) => {
     const response = await axios.post('/auth/login', form)
 
     const { token, user } = response
