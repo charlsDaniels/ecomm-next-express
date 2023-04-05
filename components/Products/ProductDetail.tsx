@@ -4,10 +4,10 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { useAuthContext } from "../../providers/AuthProvider";
-import { CartContext } from "../../providers/CartProvider";
-import { CartContextType, CartItemInterface } from "../../types/Cart";
-import { DBProduct, Size } from "../../types/Product";
+import { useAuthContext } from "providers/AuthProvider";
+import { CartContext } from "providers/CartProvider";
+import { CartContextType, CartItemInterface } from "types/Cart";
+import { DBProduct, Stock } from "types/Product";
 import ItemCount from "./ItemCount";
 
 interface Props {
@@ -30,9 +30,9 @@ const ProductDetail = ({ product }: Props) => {
       const selectedQuantity = initialCount === 1 ? quantity - 1 : quantity - initialCount;
       cartContext.addItem(
         {
-          id: product.id,
-          categoryDescription: product.categoryDescription,
-          title: product.title,
+          id: product._id,
+          categoryDescription: product.category.name,
+          title: product.name,
           price: product.price,
           pictureUrl: product.pictureUrl,
           sizes: [],
@@ -44,15 +44,15 @@ const ProductDetail = ({ product }: Props) => {
     }
   };
 
-  const selectSizeHandler = (size: Size) => {
-    const initialCount = cartContext.getItemInitialCount(product.id, size.id);
+  const selectSizeHandler = (stock: Stock) => {
+    const initialCount = cartContext.getItemInitialCount(product._id, stock.size);
     setInitialCount(initialCount);
-    setSelectedSize(size.id);
-    setStock(size.stock);
+    setSelectedSize(stock.size);
+    setStock(stock.quantity);
   };
 
   const productTitle = () => {
-    return `${product.categoryDescription.slice(0, -1)} ${product.title}`;
+    return `${product.category.name.slice(0, -1)} ${product.name}`;
   };
 
   return (
@@ -88,12 +88,12 @@ const ProductDetail = ({ product }: Props) => {
             <Typography variant="overline">Selecciona tu talla</Typography>
 
             <ButtonGroup size="small" color="secondary" variant="outlined">
-              {product.sizes.map((size) => (
+              {product.stock.map((stock) => (
                 <Button
-                  key={size.id}
-                  onClick={() => selectSizeHandler(size)}
+                  key={stock.size}
+                  onClick={() => selectSizeHandler(stock)}
                   style={
-                    selectedSize === size.id
+                    selectedSize === stock.size
                       ? {
                         color: "#fff",
                         backgroundColor: "#3B253B",
@@ -101,7 +101,7 @@ const ProductDetail = ({ product }: Props) => {
                       : undefined
                   }
                 >
-                  {size.id}
+                  {stock.size}
                 </Button>
               ))}
             </ButtonGroup>

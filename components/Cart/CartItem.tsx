@@ -6,8 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { CartContext } from "../../providers/CartProvider";
-import { CartContextType, CartItemInterface, ItemSize } from "../../types/Cart";
+import { CartContext } from "providers/CartProvider";
+import { CartContextType, CartItemInterface, ItemSize } from "types/Cart";
 
 interface Props {
   item: CartItemInterface;

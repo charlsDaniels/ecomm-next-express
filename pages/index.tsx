@@ -1,9 +1,9 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head';
 import { Fragment } from 'react';
-import ProductList from "../components/Products/ProductList";
-import { fetchAllProducts } from "../services/firebase/querys";
-import { DBProduct } from "../types/Product";
+import ProductList from "components/Products/ProductList";
+import { fetchProducts } from 'services/api/querys';
+import { DBProduct } from 'types/Product';
 
 interface HomePageProps {
   products: DBProduct[]
@@ -22,16 +22,9 @@ const HomePage = ({ products }: HomePageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const snapshot = await fetchAllProducts();
+  const { products }: { products: DBProduct[] } = await fetchProducts()
 
-  const products = snapshot.docs.map((doc) => {
-    return {
-      ...doc.data(),
-      id: doc.id,
-    };
-  });
-
-  const featuredProducts = products.filter(prod => prod.isFeatured)
+  const featuredProducts = products.filter((prod) => prod.isFeatured)
 
   return {
     props: {

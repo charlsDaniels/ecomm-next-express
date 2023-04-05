@@ -3,18 +3,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAuthContext } from "../../providers/AuthProvider";
-import { FormInputText } from "../Forms/FormInputText";
-import { EMAIL_REGEX } from '../../utils/validations'
+import { useAuthContext } from "providers/AuthProvider";
+import { FormInputText } from "../FormInputText";
+import { EMAIL_REGEX } from 'utils/validations'
+import { LoginForm } from "types/Auth";
 
 interface LoginProps {
   onChangeMode: () => void;
 }
-
-type FormData = {
-  email?: string,
-  password?: string,
-};
 
 const formInputs = [{
   name: "email",
@@ -43,15 +39,15 @@ const Login: React.FC<LoginProps> = ({ onChangeMode }) => {
 
   const { login, closeAuthModal } = useAuthContext();
 
-  const { handleSubmit, control, formState: { isValid } } = useForm<FormData>();
+  const { handleSubmit, control, formState: { isValid } } = useForm<LoginForm>();
 
-  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+  const onSubmit: SubmitHandler<LoginForm> = async (form: LoginForm) => {
     setError("");
     try {
-      await login(data.email as string, data.password as string);
+      await login(form);
       closeAuthModal();
-    } catch (error) {
-      setError("Ocurrió un error al enviar el formulario");
+    } catch (err) {
+      setError("Ocurrió un error al iniciar sesión");
     }
   };
 
