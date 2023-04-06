@@ -1,10 +1,10 @@
-import { Controller } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import React from "react";
 import { TextField } from "@mui/material";
 
 interface Props {
   name: string,
-  control: any,
+  control: Control<any>,
   label: string,
   defaultValue?: string | null,
   type: string,
