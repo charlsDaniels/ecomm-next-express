@@ -1,23 +1,22 @@
+import { DBProduct, DBProductResponse } from '../../types/Product';
 import { axios } from "../axios";
 
 const fetchProducts = async (category = '') => {
   const query = category ? `?category=${category}` : ''
-  const products = await axios.get(`/product${query}`);
-  return products
+  return await axios.get<DBProductResponse>(`/product${query}`);
 }
 
 const fetchProduct = async (id: string) => {
-  const product = await axios.get(`/product/${id}`)
-  return product
+  return await axios.get<DBProduct>(`/product/${id}`)
 }
 
 const swrFetcher = async (resource: string) => {
-  const response = await axios.get(`/${resource}`)
-  return response
+  const response = await axios.get<any>(`/${resource}`)
+  return response.data
 }
 
 export {
   fetchProducts,
   fetchProduct,
   swrFetcher
-}
+};

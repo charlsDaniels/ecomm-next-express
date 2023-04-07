@@ -1,9 +1,11 @@
-import { GetStaticProps } from 'next'
+import { AxiosResponse } from 'axios';
+import ProductList from "components/Products/ProductList";
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Fragment } from 'react';
-import ProductList from "components/Products/ProductList";
 import { fetchProducts } from 'services/api/querys';
 import { DBProduct } from 'types/Product';
+import { DBProductResponse } from '../types/Product';
 
 interface HomePageProps {
   products: DBProduct[]
@@ -22,7 +24,9 @@ const HomePage = ({ products }: HomePageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { products }: { products: DBProduct[] } = await fetchProducts()
+  const { data }: AxiosResponse<DBProductResponse, any> = await fetchProducts()
+
+  const { products }: { products: DBProduct[] } = data
 
   const featuredProducts = products.filter((prod) => prod.isFeatured)
 

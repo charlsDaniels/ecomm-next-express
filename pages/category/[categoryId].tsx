@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import { fetchProducts } from 'services/api/querys';
+import { DBProductResponse } from '../../types/Product';
+import { AxiosResponse } from 'axios';
 
 interface ProductCategoryPageProps {
   products: DBProduct[]
@@ -29,11 +31,11 @@ const ProductCategoryPage = ({ products }: ProductCategoryPageProps) => {
 export default ProductCategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
   const category = ctx.params?.categoryId as string
 
-  const { products }: { products: DBProduct[]} = await fetchProducts(category)
+  const { data }: AxiosResponse<DBProductResponse, any> = await fetchProducts(category)
 
+  const { products }: { products: DBProduct[] } = data
   return {
     props: {
       products

@@ -44,7 +44,7 @@ const Login: React.FC<LoginProps> = ({ onChangeMode }) => {
   const onSubmit: SubmitHandler<LoginForm> = async (form: LoginForm) => {
     setError("");
     try {
-      await login(form);
+      login(form);
       closeAuthModal();
     } catch (err) {
       setError("Ocurrió un error al iniciar sesión");

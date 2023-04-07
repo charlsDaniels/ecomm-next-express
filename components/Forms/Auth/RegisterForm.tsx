@@ -1,13 +1,13 @@
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
-import { useAuthContext } from "providers/AuthProvider";
-import { EMAIL_REGEX } from 'utils/validations';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormInputText } from 'components/Forms/FormInputText';
-import Box from "@mui/material/Box";
+import { useAuthContext } from "providers/AuthProvider";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { axios } from 'services/axios';
 import { RegisterForm } from "types/Auth";
-import {axios} from 'services/axios';
+import { EMAIL_REGEX } from 'utils/validations';
 
 interface RegisterProps {
   onChangeMode: () => void;
@@ -24,13 +24,10 @@ const Register: React.FC<RegisterProps> = ({ onChangeMode }) => {
   const onSubmit: SubmitHandler<RegisterForm> = async (form: RegisterForm) => {
     setError("");
     try {
-
       await axios.post('/user', form)
-
-      await login({ email: form.email, password: form.password })
-
+      login({ email: form.email, password: form.password })
       closeAuthModal();
-    } catch (err) {
+    } catch (err: any) {
       setError(err.errors[0].msg);
     }
   };

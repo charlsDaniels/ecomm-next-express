@@ -1,23 +1,24 @@
-import * as React from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Link from 'next/link';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Category } from 'types/Category';
-import useSWR from 'swr';
-import { swrFetcher } from 'services/api/querys';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import List from '@mui/material/List';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import { useState } from 'react';
+import { swrFetcher } from 'services/api/querys';
+import useSWR from 'swr';
+import { Category } from 'types/Category';
 
 export default function SideDrawer() {
   const [open, setOpen] = useState(false);
 
-  const { data: categories }: { data: Category[] | undefined } = useSWR('category', swrFetcher)
+  const { data: categories } = useSWR<Category[]>('category', swrFetcher)
 
   const toggleDrawer = () => {
     setOpen(!open)

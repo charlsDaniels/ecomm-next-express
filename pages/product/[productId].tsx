@@ -6,6 +6,9 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import Empty from 'components/Navigation/Empty';
 import Head from 'next/head';
 import { fetchProduct, fetchProducts } from 'services/api/querys';
+import {DBProductResponse} from '../../types/Product';
+import { AxiosResponse } from 'axios';
+import {axios} from '../../services/axios';
 
 interface ProductDetailPageProps {
   product: DBProduct
@@ -34,18 +37,21 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const productId = String(ctx.params?.productId)
 
-  const product = await fetchProduct(productId)
+  const { data }: AxiosResponse<DBProduct, any> = await axios.get(`/product/${productId}`)
 
   return {
     props: {
-      product
+      product: data
     },
     revalidate: 60
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-  const { products }: { products: DBProduct[]} = await fetchProducts()
+
+  const { data }: AxiosResponse<DBProductResponse, any> = await fetchProducts()
+
+  const { products }: { products: DBProduct[] } = data
 
   const paths = products.map(product => ({ params: { productId: product._id } }))
 

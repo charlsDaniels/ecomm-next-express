@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
-import { useRouter } from 'next/router';
 import AuthModal from "components/Forms/Auth/AuthModal";
-import { AuthContextType, AuthStateInterface, LoginForm } from '../types/Auth';
-import { axios } from '../services/axios';
+import { useRouter } from 'next/router';
+import { createContext, useContext, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import { axios } from '../services/axios';
+import { AuthContextType, AuthStateInterface } from '../types/Auth';
 
 const authContext = createContext<AuthContextType | null>(null);
 
@@ -28,11 +28,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter()
 
   const login = async (form: FieldValues) => {
-    const response = await axios.post('/auth/login', form)
+    const { data } = await axios.post('/auth/login', form)
 
-    const { token, user } = response
+    const { token, user } = data
 
-    setAuthState(response)
+    setAuthState(data)
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
 

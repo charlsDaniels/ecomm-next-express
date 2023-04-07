@@ -88,7 +88,6 @@ const PersonalInfoForm = ({ onValidForm, info }: Props) => {
               key={input.name}
               name={input.name}
               control={control}
-              value={input.value}
               label={input.label}
               type={input.type}
               rules={input.rules} />

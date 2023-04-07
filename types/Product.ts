@@ -7,12 +7,17 @@ export interface Stock {
 
 export interface DBProduct {
   _id: string;
-  isAvailable: boolean;
-  category: Category;
   name: string;
   description: string;
+  isAvailable: boolean;
+  category: Category;
   price: number;
+  isFeatured: boolean
   pictureUrl: string;
   stock: Stock[];
-  isFeatured: boolean
+}
+
+export interface DBProductResponse {
+  total: number,
+  products: DBProduct[]
 }
