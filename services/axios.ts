@@ -12,8 +12,8 @@ const client = axios.create({
 client.interceptors.response.use(
   res => res,
   err => {
-    if (err.response.data.errors) throw err.response.data.errors
-    return err
+    if (err.response && err.response.data.errors) throw err.response.data.errors
+    throw err.response.data
   }
 )
 

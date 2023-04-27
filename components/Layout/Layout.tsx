@@ -1,6 +1,6 @@
-import React from 'react'
-import Navbar from 'components/Navigation/Navbar/NavBar'
 import Container from '@mui/material/Container';
+import Navbar from 'components/Navigation/Navbar/NavBar';
+import React from 'react';
 
 interface Props {
   children: JSX.Element;

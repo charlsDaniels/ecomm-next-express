@@ -1,55 +1,56 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuthContext } from "providers/AuthProvider";
-import { FormInputText } from "../FormInputText";
-import { EMAIL_REGEX } from 'utils/validations'
+import React, { useMemo, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginForm } from "types/Auth";
+import { EMAIL_REGEX } from 'utils/validations';
+import { FormInputText } from "../FormInputText";
 
 interface LoginProps {
   onChangeMode: () => void;
 }
 
-const formInputs = [{
-  name: "email",
-  label: "Email",
-  type: "email",
-  rules: {
-    required: 'El email es requerido',
-    pattern: {
-      value: EMAIL_REGEX,
-      message: 'El formato del email debe ser válido'
-    }
-  }
-},
-{
-  name: "password",
-  label: "Contraseña",
-  type: "password",
-  rules: {
-    required: 'La contraseña es requerida'
-  }
-}]
-
 const Login: React.FC<LoginProps> = ({ onChangeMode }) => {
 
   const [error, setError] = useState("")
 
-  const { login, closeAuthModal } = useAuthContext();
+  const { login } = useAuthContext();
 
   const { handleSubmit, control, formState: { isValid } } = useForm<LoginForm>();
 
   const onSubmit: SubmitHandler<LoginForm> = async (form: LoginForm) => {
     setError("");
     try {
-      login(form);
-      closeAuthModal();
-    } catch (err) {
-      setError("Ocurrió un error al iniciar sesión");
+      await login(form);
+    } catch (err: any) {
+      setError(err.error);
     }
   };
+
+  const formInputs = useMemo(() => [
+    {
+      name: "email",
+      label: "Email",
+      type: "email",
+      rules: {
+        required: 'El email es requerido',
+        pattern: {
+          value: EMAIL_REGEX,
+          message: 'El formato del email debe ser válido'
+        }
+      }
+    },
+    {
+      name: "password",
+      label: "Contraseña",
+      type: "password",
+      rules: {
+        required: 'La contraseña es requerida'
+      }
+    }
+  ], [])
 
   return (
     <>

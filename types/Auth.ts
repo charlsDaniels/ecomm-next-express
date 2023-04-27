@@ -26,7 +26,7 @@ export interface AuthStateInterface {
 
 export type AuthContextType = {
   authState: AuthStateInterface
-  login: (form: LoginForm) => void
+  login: (form: LoginForm) => Promise<void>
   logout: () => void
   isUserAuthenticated: () => boolean
   openAuthModal: () => void

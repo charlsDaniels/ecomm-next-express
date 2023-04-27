@@ -1,17 +1,17 @@
-import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import OrderModal from "./OrderModal";
-import { useState, useContext } from "react";
-import { CartContext } from "providers/CartProvider";
-import Loader from "components/UI/Loader";
-import { CartContextType } from "types/Cart";
-import { useAuthContext } from "providers/AuthProvider";
-import { useRouter } from "next/router";
-import { EMAIL_REGEX } from 'utils/validations';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import Typography from "@mui/material/Typography";
 import { FormInputText } from 'components/Forms/FormInputText';
+import Loader from "components/UI/Loader";
+import { useRouter } from "next/router";
+import { useAuthContext } from "providers/AuthProvider";
+import { CartContext } from "providers/CartProvider";
+import { useContext, useMemo, useState } from "react";
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { CartContextType } from "types/Cart";
+import { EMAIL_REGEX } from 'utils/validations';
+import OrderModal from "./OrderModal";
+import { axios } from "services/axios";
 
 type FormData = {
   name?: string,
@@ -44,15 +44,18 @@ const CheckoutForm = () => {
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     setLoading(true);
     try {
+      const items = cartContext.cart.map(item => {
+        return {
+          productId: item.id,
+          sizes: item.sizes
+        }
+      })
       const order = {
-        buyer: data,
-        items: cartContext.cart,
+        items,
         total: cartContext.totalAmount(),
-        status: "generada",
-        // createdAt: serverTimestamp(),
       };
-      // const { id } = await addOrder(order);
-      // setOrderId(id);
+      const response = await axios.post('/order', order)
+      setOrderId(response.data.trackingNumber);
       setShowModal(true);
     } catch (error) {
       console.log(error);
@@ -61,33 +64,37 @@ const CheckoutForm = () => {
     }
   };
 
-  const formInputs = [{
-    name: "name",
-    label: "Nombre completo",
-    type: "text",
-    rules: {
-      required: 'El nombre es requerido',
-    }
-  },
-  {
-    name: "phone",
-    label: "Teléfono",
-    type: "tel",
-    rules: {
-      required: 'El teléfono es requerido'
-    }
-  },
-  {
-    name: "email",
-    label: "Email",
-    type: "email",
-    rules: {
-      pattern: {
-        value: EMAIL_REGEX,
-        message: 'El formato del email debe ser válido'
+  const formInputs = useMemo(() => {
+    return [
+      {
+        name: "name",
+        label: "Nombre completo",
+        type: "text",
+        rules: {
+          required: 'El nombre es requerido',
+        }
+      },
+      // {
+      //   name: "phone",
+      //   label: "Teléfono",
+      //   type: "tel",
+      //   rules: {
+      //     required: 'El teléfono es requerido'
+      //   }
+      // },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+        rules: {
+          pattern: {
+            value: EMAIL_REGEX,
+            message: 'El formato del email debe ser válido'
+          }
+        }
       }
-    }
-  }]
+    ]
+  }, []);
 
   return (
     <>

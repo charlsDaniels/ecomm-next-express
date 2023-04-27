@@ -28,10 +28,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter()
 
   const login = async (form: FieldValues) => {
+
     const { data } = await axios.post('/auth/login', form)
-
     const { token, user } = data
-
+    
     setAuthState(data)
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
@@ -44,6 +44,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return config
       }
     )
+
+    closeAuthModal()
   }
 
   const logout = () => {

@@ -16,7 +16,7 @@ export const FormInputText = ({ name, control, label, type, rules }: Props) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field: { onChange }, fieldState: { error } }) => (
         <TextField
           label={label}
           size="small"

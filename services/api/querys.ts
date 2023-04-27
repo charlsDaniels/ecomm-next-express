@@ -11,7 +11,7 @@ const fetchProduct = async (id: string) => {
 }
 
 const swrFetcher = async (resource: string) => {
-  const response = await axios.get<any>(`/${resource}`)
+  const response = await axios.get(`/${resource}`)
   return response.data
 }
 

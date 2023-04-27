@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { FormInputText } from 'components/Forms/FormInputText';
 import { useAuthContext } from "providers/AuthProvider";
-import React, { useState } from "react";
+import { useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { axios } from 'services/axios';
 import { RegisterForm } from "types/Auth";
@@ -17,7 +17,7 @@ const Register: React.FC<RegisterProps> = ({ onChangeMode }) => {
 
   const [error, setError] = useState("");
 
-  const { closeAuthModal, login } = useAuthContext();
+  const { login } = useAuthContext();
 
   const { handleSubmit, control, formState: { isValid }, getValues } = useForm<RegisterForm>({ mode: 'onChange' });
 
@@ -25,14 +25,13 @@ const Register: React.FC<RegisterProps> = ({ onChangeMode }) => {
     setError("");
     try {
       await axios.post('/user', form)
-      login({ email: form.email, password: form.password })
-      closeAuthModal();
+      await login({ email: form.email, password: form.password })
     } catch (err: any) {
       setError(err.errors[0].msg);
     }
   };
 
-  const formInputs = [
+  const formInputs = useMemo(() => [
     {
       name: "username",
       label: "Nombre de usuario",
@@ -72,7 +71,8 @@ const Register: React.FC<RegisterProps> = ({ onChangeMode }) => {
         },
       }
     }
-  ]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [])
 
   return (
     <>
